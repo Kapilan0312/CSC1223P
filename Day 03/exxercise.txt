@@ -1,0 +1,629 @@
+
+Setting environment for using XAMPP for Windows.
+2022ASP86@CL2-40 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW databases;
++--------------------+
+| Database           |
++--------------------+
+| 2020asp50          |
+| agriharvestnexus   |
+| bfl                |
+| book               |
+| book_library       |
+| bookboat           |
+| bookdb             |
+| bookdb1            |
+| booldb             |
+| company            |
+| englishfi          |
+| hospital           |
+| information_schema |
+| it1223db           |
+| moviedb            |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| sp_jbase           |
+| student            |
+| studentdb          |
+| studentdb1         |
+| test               |
+| university         |
+| uov                |
++--------------------+
+25 rows in set (0.001 sec)
+
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> show tables;
++---------------+
+| Tables_in_uov |
++---------------+
+| detail        |
+| details       |
+| exercise      |
+| patient       |
+| patients      |
++---------------+
+5 rows in set (0.001 sec)
+
+MariaDB [uov]> desc patient;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| PatientID | int(20)     | YES  |     | NULL    |       |
+| Name      | varchar(20) | YES  |     | NULL    |       |
+| Address   | varchar(50) | YES  |     | NULL    |       |
+| Phone     | varchar(15) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.018 sec)
+
+MariaDB [uov]> desc patients;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| PatientsID | bigint(10)  | NO   | PRI | NULL    |       |
+| Name       | varchar(20) | YES  |     | NULL    |       |
+| Address    | varchar(30) | YES  |     | NULL    |       |
+| Phone      | varchar(12) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.017 sec)
+
+MariaDB [uov]> desc detail;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Id    | smallint(20) | NO   | PRI | NULL    |       |
+| Name  | varchar(20)  | YES  |     | NULL    |       |
+| Age   | varchar(2)   | YES  |     | NULL    |       |
+| Grade | varchar(1)   | YES  |     | NULL    |       |
+| City  | varchar(25)  | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+5 rows in set (0.015 sec)
+
+MariaDB [uov]> select * from detail;
++----+------+------+-------+------+
+| Id | Name | Age  | Grade | City |
++----+------+------+-------+------+
+|  1 | NULL | NULL | NULL  | NULL |
+|  2 | NULL | NULL | NULL  | NULL |
+|  3 | NULL | NULL | NULL  | NULL |
+|  4 | NULL | NULL | NULL  | NULL |
+|  5 | NULL | NULL | NULL  | NULL |
+|  6 | NULL | NULL | NULL  | NULL |
++----+------+------+-------+------+
+6 rows in set (0.032 sec)
+
+MariaDB [uov]> select * from details;
+Empty set (0.006 sec)
+
+MariaDB [uov]> INSERT INTO details(Id,Name,Age,Grade,City)VALUES
+    -> (1,'Alice',20,'A','New York'),
+    -> (2,'Bob',22,B,Chicago),
+    -> (1,'Alice',20,'A','New York';),
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 4
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '),' at line 1
+MariaDB [uov]>  select * from details;
+Empty set (0.000 sec)
+
+MariaDB [uov]> INSERT INTO details(Id,Name,Age,Grade,City)VALUES
+    -> (1,'Alice',20,'A','New York'),
+    -> (2,'Bob',22,'B','Chicago'),
+    -> (3,'Charlie',20,'A','Boston'),
+    -> (3,'Charlie',20,'A','Boston'),;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 5
+ERROR: No query specified
+
+MariaDB [uov]>  select * from details;
+Empty set (0.000 sec)
+
+MariaDB [uov]>  select * from details;
+Empty set (0.000 sec)
+
+MariaDB [uov]> INSERT INTO details(Id,Name,Age,Grade,City)VALUES
+    -> (1,'Alice',20,'A','New York';),
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+    -> select * from detail;;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '),
+select * from detail' at line 1
+ERROR: No query specified
+
+ERROR: No query specified
+
+MariaDB [uov]> INSERT INTO details(Id,Name,Age,Grade,City)VALUES
+    -> (1,'Alice',20,'A','New York'),
+    -> (2,'Bob',22,'B','Chicago'),
+    -> (3,'Charlie',21,'A','New york'),
+    -> (4,'David',23,'C','Boston'),
+    -> (5,'Emma',22,'B','Chicago'),
+    -> (6,'Frank',20,'A','Los Angeles');
+Query OK, 6 rows affected (0.003 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]>  select * from details;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> DESC details;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Id    | smallint(20) | NO   | PRI | NULL    |       |
+| Name  | varchar(20)  | YES  |     | NULL    |       |
+| Age   | varchar(2)   | YES  |     | NULL    |       |
+| Grade | varchar(1)   | YES  |     | NULL    |       |
+| City  | varchar(25)  | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+5 rows in set (0.014 sec)
+
+MariaDB [uov]>  select * from details;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]>  select * from details;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select Id,Name from details;
++----+---------+
+| Id | Name    |
++----+---------+
+|  1 | Alice   |
+|  2 | Bob     |
+|  3 | Charlie |
+|  4 | David   |
+|  5 | Emma    |
+|  6 | Frank   |
++----+---------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select Age,Name from details;
++------+---------+
+| Age  | Name    |
++------+---------+
+| 20   | Alice   |
+| 22   | Bob     |
+| 21   | Charlie |
+| 23   | David   |
+| 22   | Emma    |
+| 20   | Frank   |
++------+---------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select Age,City from details;
++------+-------------+
+| Age  | City        |
++------+-------------+
+| 20   | New York    |
+| 22   | Chicago     |
+| 21   | New york    |
+| 23   | Boston      |
+| 22   | Chicago     |
+| 20   | Los Angeles |
++------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from WHERE Grade='A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE Grade='A'' at line 1
+MariaDB [uov]> select * from WHERE Grade='A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE Grade='A'' at line 1
+MariaDB [uov]> select * from details WHERE Grade='A';
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  3 | Charlie | 21   | A     | New york    |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select name,grade from details WHERE='A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='A'' at line 1
+MariaDB [uov]> select Name,Grade from details WHERE='A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='A'' at line 1
+MariaDB [uov]> select Name,Grade from details WHERE Grade='A';
++---------+-------+
+| Name    | Grade |
++---------+-------+
+| Alice   | A     |
+| Charlie | A     |
+| Frank   | A     |
++---------+-------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select Name,Grade from details WHERE Grade='A';
++---------+-------+
+| Name    | Grade |
++---------+-------+
+| Alice   | A     |
+| Charlie | A     |
+| Frank   | A     |
++---------+-------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Grade='B';
++----+------+------+-------+---------+
+| Id | Name | Age  | Grade | City    |
++----+------+------+-------+---------+
+|  2 | Bob  | 22   | B     | Chicago |
+|  5 | Emma | 22   | B     | Chicago |
++----+------+------+-------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select Name,Grade from details WHERE Grade='B';
++------+-------+
+| Name | Grade |
++------+-------+
+| Bob  | B     |
+| Emma | B     |
++------+-------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City='Chicago';
++----+------+------+-------+---------+
+| Id | Name | Age  | Grade | City    |
++----+------+------+-------+---------+
+|  2 | Bob  | 22   | B     | Chicago |
+|  5 | Emma | 22   | B     | Chicago |
++----+------+------+-------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Age BETWEEN 20 and 22;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> select DISTINCT City from details;
++-------------+
+| City        |
++-------------+
+| New York    |
+| Chicago     |
+| Boston      |
+| Los Angeles |
++-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name='Alice';
++----+-------+------+-------+----------+
+| Id | Name  | Age  | Grade | City     |
++----+-------+------+-------+----------+
+|  1 | Alice | 20   | A     | New York |
++----+-------+------+-------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name like 'A%';
++----+-------+------+-------+----------+
+| Id | Name  | Age  | Grade | City     |
++----+-------+------+-------+----------+
+|  1 | Alice | 20   | A     | New York |
++----+-------+------+-------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name like'A%';
++----+-------+------+-------+----------+
+| Id | Name  | Age  | Grade | City     |
++----+-------+------+-------+----------+
+|  1 | Alice | 20   | A     | New York |
++----+-------+------+-------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name like'%e';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name like'%i%';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
+|  4 | David   | 23   | C     | Boston   |
++----+---------+------+-------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Name like'%li%';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City like'New%';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City IN('New York','Los Angeles');
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  3 | Charlie | 21   | A     | New york    |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City='New York' and Grade='A';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City IN 'New York';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''New York'' at line 1
+MariaDB [uov]> select * from details WHERE City IN ('New York');
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City='New York' and Grade='A';
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE City='New York' or Grade='A';
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  3 | Charlie | 21   | A     | New york    |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE Grade=!'A';
+Empty set, 7 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE not Grade='A';
++----+-------+------+-------+---------+
+| Id | Name  | Age  | Grade | City    |
++----+-------+------+-------+---------+
+|  2 | Bob   | 22   | B     | Chicago |
+|  4 | David | 23   | C     | Boston  |
+|  5 | Emma  | 22   | B     | Chicago |
++----+-------+------+-------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select Name from details WHERE City 'New%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''New%'' at line 1
+MariaDB [uov]> select Name from details WHERE City like 'New%';
++---------+
+| Name    |
++---------+
+| Alice   |
+| Charlie |
++---------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE not City IN('New York','Los Angeles');
++----+-------+------+-------+---------+
+| Id | Name  | Age  | Grade | City    |
++----+-------+------+-------+---------+
+|  2 | Bob   | 22   | B     | Chicago |
+|  4 | David | 23   | C     | Boston  |
+|  5 | Emma  | 22   | B     | Chicago |
++----+-------+------+-------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [uov]> select * from details WHERE not City!='New York' and 'Los Angeles';
+Empty set, 5 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE  City!='New York' and 'Los Angeles';
+Empty set, 5 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE  City != 'New York' and 'Los Angeles';
+Empty set, 5 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE  City != 'New York' and 'Los Angeles';
+Empty set, 5 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE  City != ('New York' and 'Los Angeles');
+Empty set, 15 warnings (0.000 sec)
+
+MariaDB [uov]> select * from details WHERE  City !='New York' and city!='Los Angeles';
++----+-------+------+-------+---------+
+| Id | Name  | Age  | Grade | City    |
++----+-------+------+-------+---------+
+|  2 | Bob   | 22   | B     | Chicago |
+|  4 | David | 23   | C     | Boston  |
+|  5 | Emma  | 22   | B     | Chicago |
++----+-------+------+-------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details LIMIT3;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details LIMIT 3;
++----+---------+------+-------+----------+
+| Id | Name    | Age  | Grade | City     |
++----+---------+------+-------+----------+
+|  1 | Alice   | 20   | A     | New York |
+|  2 | Bob     | 22   | B     | Chicago  |
+|  3 | Charlie | 21   | A     | New york |
++----+---------+------+-------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select COUNT(Name) from details;
++-------------+
+| COUNT(Name) |
++-------------+
+|           6 |
++-------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select MAX(Age) from details;
++----------+
+| MAX(Age) |
++----------+
+| 23       |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select AVG(Age) from details;
++--------------------+
+| AVG(Age)           |
++--------------------+
+| 21.333333333333332 |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select MIN(Age) from details;
++----------+
+| MIN(Age) |
++----------+
+| 20       |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select AVG(Age) from details;
++--------------------+
+| AVG(Age)           |
++--------------------+
+| 21.333333333333332 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select UPPER(Name) from details;
++-------------+
+| UPPER(Name) |
++-------------+
+| ALICE       |
+| BOB         |
+| CHARLIE     |
+| DAVID       |
+| EMMA        |
+| FRANK       |
++-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select LOWER(Name) from details;
++-------------+
+| LOWER(Name) |
++-------------+
+| alice       |
+| bob         |
+| charlie     |
+| david       |
+| emma        |
+| frank       |
++-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select Name as Student_Name from details;
++--------------+
+| Student_Name |
++--------------+
+| Alice        |
+| Bob          |
+| Charlie      |
+| David        |
+| Emma         |
+| Frank        |
++--------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from details;
++----+---------+------+-------+-------------+
+| Id | Name    | Age  | Grade | City        |
++----+---------+------+-------+-------------+
+|  1 | Alice   | 20   | A     | New York    |
+|  2 | Bob     | 22   | B     | Chicago     |
+|  3 | Charlie | 21   | A     | New york    |
+|  4 | David   | 23   | C     | Boston      |
+|  5 | Emma    | 22   | B     | Chicago     |
+|  6 | Frank   | 20   | A     | Los Angeles |
++----+---------+------+-------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]>ß
