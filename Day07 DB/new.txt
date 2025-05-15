@@ -1,0 +1,684 @@
+
+Setting environment for using XAMPP for Windows.
+2022ASP86@CL2-51 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| a                  |
+| agriharvestnexus   |
+| bfl                |
+| book               |
+| book_db            |
+| bookdb             |
+| bookdp             |
+| books              |
+| company            |
+| exlibro            |
+| hospital           |
+| hospitaldb         |
+| icae02             |
+| information_schema |
+| library            |
+| library_management |
+| librarysystem      |
+| moviedb            |
+| mydb               |
+| mysql              |
+| patient            |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| studentdb          |
+| test               |
+| university         |
+| uov                |
++--------------------+
+28 rows in set (0.058 sec)
+
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> create table sales(sale_id int(2),salesperson varchar(30),region varchar(30),sale_amount int(10),sale_date date);
+ERROR 1050 (42S01): Table 'sales' already exists
+MariaDB [uov]> create table sales(sale_id int(2),salesperson varchar(30),region varchar(30),sale_amount int(10),sale_date date);
+ERROR 1050 (42S01): Table 'sales' already exists
+MariaDB [uov]> drop table sales;
+Query OK, 0 rows affected (0.044 sec)
+
+MariaDB [uov]> create table sales(sale_id int(2),salesperson varchar(30),region varchar(30),sale_amount int(10),sale_date date);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [uov]> desc sales;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| sale_id     | int(2)      | YES  |     | NULL    |       |
+| salesperson | varchar(30) | YES  |     | NULL    |       |
+| region      | varchar(30) | YES  |     | NULL    |       |
+| sale_amount | int(10)     | YES  |     | NULL    |       |
+| sale_date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.014 sec)
+
+MariaDB [uov]> insert into sales(sale_id,salesperson,region,sale_amount,sale_date)values
+    -> (1,'Alice','North',1200,'2024-12-01'),
+    -> (2,'Bob','South',800,'2024-12-01'),
+    -> (3,'Alice','North',1500,'2024-12-02'),
+    -> (4,'Carol','East',700,'2024-12-02'),
+    -> (5,'Dave','West',2000,'2024-12-03'),
+    -> (6,'Bob','South',950,'2024-12-03'),
+    -> (7,'Carol','East',1300,'2024-12-04');
+Query OK, 7 rows affected (0.003 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from sales;
++---------+-------------+--------+-------------+------------+
+| sale_id | salesperson | region | sale_amount | sale_date  |
++---------+-------------+--------+-------------+------------+
+|       1 | Alice       | North  |        1200 | 2024-12-01 |
+|       2 | Bob         | South  |         800 | 2024-12-01 |
+|       3 | Alice       | North  |        1500 | 2024-12-02 |
+|       4 | Carol       | East   |         700 | 2024-12-02 |
+|       5 | Dave        | West   |        2000 | 2024-12-03 |
+|       6 | Bob         | South  |         950 | 2024-12-03 |
+|       7 | Carol       | East   |        1300 | 2024-12-04 |
++---------+-------------+--------+-------------+------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table sales add primary key (sale_id);
+Query OK, 0 rows affected (0.107 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select sum(sale_amount) from sales;
++------------------+
+| sum(sale_amount) |
++------------------+
+|             8450 |
++------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select count(*) from sales;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select AVG(sale_amount) as AVERAGE_SALE_AMOUNT from sales;
++---------------------+
+| AVERAGE_SALE_AMOUNT |
++---------------------+
+|           1207.1429 |
++---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select max(sale_amount) as HIGHEST_SALE_AMOUNT from sales;
++---------------------+
+| HIGHEST_SALE_AMOUNT |
++---------------------+
+|                2000 |
++---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select min(sale_amount) as LOWEST_SALE_AMOUNT from sales;
++--------------------+
+| LOWEST_SALE_AMOUNT |
++--------------------+
+|                700 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,count(*) as sales_C from sales group by salesperson;;
++-------------+---------+
+| salesperson | sales_C |
++-------------+---------+
+| Alice       |       2 |
+| Bob         |       2 |
+| Carol       |       2 |
+| Dave        |       1 |
++-------------+---------+
+4 rows in set (0.001 sec)
+
+ERROR: No query specified
+
+MariaDB [uov]> select region,sum(sale_amount) as SALES_AMOUNT from sales group by region;
++--------+--------------+
+| region | SALES_AMOUNT |
++--------+--------------+
+| East   |         2000 |
+| North  |         2700 |
+| South  |         1750 |
+| West   |         2000 |
++--------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> slesct * from sales weher sale_amount>2000 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'slesct * from sales weher sale_amount>2000' at line 1
+MariaDB [uov]> slect * from sales weher sale_amount>2000 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'slect * from sales weher sale_amount>2000' at line 1
+MariaDB [uov]> slect salesperson from sales where sale_amount>2000 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'slect salesperson from sales where sale_amount>2000' at line 1
+MariaDB [uov]> select salesperson from sales where sale_amount>2000 ;
+Empty set (0.000 sec)
+
+MariaDB [uov]> select region from sales where sale_amount>2000 ;
+Empty set (0.000 sec)
+
+MariaDB [uov]> select region from sales where sale_amount > 2000 ;
+Empty set (0.000 sec)
+
+MariaDB [uov]> select region from sales where 'sale_amount > 2000' ;
+Empty set, 1 warning (0.000 sec)
+
+MariaDB [uov]>
+MariaDB [uov]> select region from sales where sum(sale_amount) > 2000' ;
+    '> ;
+    '> ;k;
+    '> ..
+    '> ;;'
+    -> /
+    ->
+    ->
+    -> \
+    -> ,,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' ;
+;
+;k;
+..
+;;'
+/
+
+
+
+,,' at line 1
+MariaDB [uov]> select region from sales where sum(sale_amount) > 2000 ;
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [uov]> select region from sales where (sum(sale_amount)) > 2000 ;
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region where sum(sale_amount)>2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where sum(sale_amount)>2000' at line 1
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region where (sum(sale_amount))>2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where (sum(sale_amount))>2000' at line 1
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region;
++--------+------------------+
+| region | sum(sale_amount) |
++--------+------------------+
+| East   |             2000 |
+| North  |             2700 |
+| South  |             1750 |
+| West   |             2000 |
++--------+------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region having(sale_amount >2000);
+ERROR 1054 (42S22): Unknown column 'sale_amount' in 'having clause'
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region having(sum(sale_amount) >2000);
++--------+------------------+
+| region | sum(sale_amount) |
++--------+------------------+
+| North  |             2700 |
++--------+------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select count(distinct salesperson) as DISTINCT_PERSONS from sales;
++------------------+
+| DISTINCT_PERSONS |
++------------------+
+|                4 |
++------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> salect sum(sale_amount) from sales where salesperson=alice;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'salect sum(sale_amount) from sales where salesperson=alice' at line 1
+MariaDB [uov]> salect sum(sale_amount) from sales where salesperson='alice';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'salect sum(sale_amount) from sales where salesperson='alice'' at line 1
+MariaDB [uov]> select sum(sale_amount) from sales where salesperson='alice';
++------------------+
+| sum(sale_amount) |
++------------------+
+|             2700 |
++------------------+
+1 row in set (0.003 sec)
+
+MariaDB [uov]> select sum(sale_amount)as ALICE_TOTAL_AMOUNT from sales where salesperson='alice';
++--------------------+
+| ALICE_TOTAL_AMOUNT |
++--------------------+
+|               2700 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,AVG(sale_amount) from sales group by region;
++--------+------------------+
+| region | AVG(sale_amount) |
++--------+------------------+
+| East   |        1000.0000 |
+| North  |        1350.0000 |
+| South  |         875.0000 |
+| West   |        2000.0000 |
++--------+------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from sales;
++---------+-------------+--------+-------------+------------+
+| sale_id | salesperson | region | sale_amount | sale_date  |
++---------+-------------+--------+-------------+------------+
+|       1 | Alice       | North  |        1200 | 2024-12-01 |
+|       2 | Bob         | South  |         800 | 2024-12-01 |
+|       3 | Alice       | North  |        1500 | 2024-12-02 |
+|       4 | Carol       | East   |         700 | 2024-12-02 |
+|       5 | Dave        | West   |        2000 | 2024-12-03 |
+|       6 | Bob         | South  |         950 | 2024-12-03 |
+|       7 | Carol       | East   |        1300 | 2024-12-04 |
++---------+-------------+--------+-------------+------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]> select sale_date,count(*)as no from sales group by sale_date;
++------------+----+
+| sale_date  | no |
++------------+----+
+| 2024-12-01 |  2 |
+| 2024-12-02 |  2 |
+| 2024-12-03 |  2 |
+| 2024-12-04 |  1 |
++------------+----+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales\ from sales group by salesperson;
+ERROR: Unknown command '\ '.
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '\ from sales group by salesperson' at line 1
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales from sales group by salesperson;
++-------------+----------------------+
+| salesperson | highest_single_sales |
++-------------+----------------------+
+| Alice       |                 1500 |
+| Bob         |                  950 |
+| Carol       |                 1300 |
+| Dave        |                 2000 |
++-------------+----------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales from sales group by salesperson having (max(max(sale_amount));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales from sales group by salesperson having (max(max(sale_amount)));
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [uov]> select salesperson,max(sale_amount) as highest_single_sales from sales group by salesperson having(max(sale_amount));
++-------------+----------------------+
+| salesperson | highest_single_sales |
++-------------+----------------------+
+| Alice       |                 1500 |
+| Bob         |                  950 |
+| Carol       |                 1300 |
+| Dave        |                 2000 |
++-------------+----------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> slect salesperson from sales where max(sale_amount);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'slect salesperson from sales where max(sale_amount)' at line 1
+MariaDB [uov]> select salesperson from sales where max(sale_amount);
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales from sales order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc' at line 1
+MariaDB [uov]> select salesperson,max(sale_amount)as highest_single_sales from sales order by desc group by salesperson;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc group by salesperson' at line 1
+ERROR: No query specified
+
+MariaDB [uov]> select salesperson from sales order by desc ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc' at line 1
+MariaDB [uov]> select salesperson from sales order by sale_amount desc ;
++-------------+
+| salesperson |
++-------------+
+| Dave        |
+| Alice       |
+| Carol       |
+| Alice       |
+| Bob         |
+| Bob         |
+| Carol       |
++-------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,max(sale_amount) from sales order by sale_amount desc ;
++-------------+------------------+
+| salesperson | max(sale_amount) |
++-------------+------------------+
+| Alice       |             2000 |
++-------------+------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,sale_amount from sales order by sale_amount desc ;
++-------------+-------------+
+| salesperson | sale_amount |
++-------------+-------------+
+| Dave        |        2000 |
+| Alice       |        1500 |
+| Carol       |        1300 |
+| Alice       |        1200 |
+| Bob         |         950 |
+| Bob         |         800 |
+| Carol       |         700 |
++-------------+-------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,sale_amount from sales order by sale_amount desc limit 1;
++-------------+-------------+
+| salesperson | sale_amount |
++-------------+-------------+
+| Dave        |        2000 |
++-------------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,count(*) from sales group by salesperson havin(count(*)>1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'havin(count(*)>1)' at line 1
+MariaDB [uov]> select salesperson,count(*) from sales group by salesperson having(count(*)>1);
++-------------+----------+
+| salesperson | count(*) |
++-------------+----------+
+| Alice       |        2 |
+| Bob         |        2 |
+| Carol       |        2 |
++-------------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,count(*)as TRANSACTION from sales group by salesperson having(count(*)>1);
++-------------+-------------+
+| salesperson | TRANSACTION |
++-------------+-------------+
+| Alice       |           2 |
+| Bob         |           2 |
+| Carol       |           2 |
++-------------+-------------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,max(*) from sales group by region;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '*) from sales group by region' at line 1
+MariaDB [uov]> select max(*) from sales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '*) from sales' at line 1
+MariaDB [uov]> select region,max(count(*)) from sales group by region;
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [uov]> select region,count(*) from sales group by region;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| East   |        2 |
+| North  |        2 |
+| South  |        2 |
+| West   |        1 |
++--------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales order by count(*) desc limit 1;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| North  |        7 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales order by count(*) desc;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| North  |        7 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales order by region desc limit 1;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| North  |        7 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales order by count(*) desc;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| North  |        7 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region from sales order by count(*) desc;
++--------+
+| region |
++--------+
+| North  |
++--------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count() from sales order by count(*) desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') from sales order by count(*) desc' at line 1
+MariaDB [uov]> select region,count(*) from sales order by region desc limit 1;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| North  |        7 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count(sale_amount) from sales order by region desc limit 1;
++--------+--------------------+
+| region | count(sale_amount) |
++--------+--------------------+
+| North  |                  7 |
++--------+--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select region,count(sale_amount) from sales group by region;
++--------+--------------------+
+| region | count(sale_amount) |
++--------+--------------------+
+| East   |                  2 |
+| North  |                  2 |
+| South  |                  2 |
+| West   |                  1 |
++--------+--------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(sale_amount) from sales group by region order by sale_amount desc;
++--------+--------------------+
+| region | count(sale_amount) |
++--------+--------------------+
+| West   |                  1 |
+| North  |                  2 |
+| South  |                  2 |
+| East   |                  2 |
++--------+--------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales group by region order by sale_amount desc;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| West   |        1 |
+| North  |        2 |
+| South  |        2 |
+| East   |        2 |
++--------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales group by region order by sale_amount desc;\
++--------+----------+
+| region | count(*) |
++--------+----------+
+| West   |        1 |
+| North  |        2 |
+| South  |        2 |
+| East   |        2 |
++--------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales group by region order by sale_amount desc;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| West   |        1 |
+| North  |        2 |
+| South  |        2 |
+| East   |        2 |
++--------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales group by region order by sale_amount asc;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| East   |        2 |
+| South  |        2 |
+| North  |        2 |
+| West   |        1 |
++--------+----------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select region,count(*) from sales group by region order by sale_amount DESC;
++--------+----------+
+| region | count(*) |
++--------+----------+
+| West   |        1 |
+| North  |        2 |
+| South  |        2 |
+| East   |        2 |
++--------+----------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select region,count(sale_amount) from sales group by region order by sale_amount DESC;
++--------+--------------------+
+| region | count(sale_amount) |
++--------+--------------------+
+| West   |                  1 |
+| North  |                  2 |
+| South  |                  2 |
+| East   |                  2 |
++--------+--------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select distinct region from sales;
++--------+
+| region |
++--------+
+| North  |
+| South  |
+| East   |
+| West   |
++--------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select * from sales;
++---------+-------------+--------+-------------+------------+
+| sale_id | salesperson | region | sale_amount | sale_date  |
++---------+-------------+--------+-------------+------------+
+|       1 | Alice       | North  |        1200 | 2024-12-01 |
+|       2 | Bob         | South  |         800 | 2024-12-01 |
+|       3 | Alice       | North  |        1500 | 2024-12-02 |
+|       4 | Carol       | East   |         700 | 2024-12-02 |
+|       5 | Dave        | West   |        2000 | 2024-12-03 |
+|       6 | Bob         | South  |         950 | 2024-12-03 |
+|       7 | Carol       | East   |        1300 | 2024-12-04 |
++---------+-------------+--------+-------------+------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]> select distinct region from sales;
++--------+
+| region |
++--------+
+| North  |
+| South  |
+| East   |
+| West   |
++--------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,sum(sale_amount) from sales group by salesperson order by sale_amount desc;
++-------------+------------------+
+| salesperson | sum(sale_amount) |
++-------------+------------------+
+| Dave        |             2000 |
+| Alice       |             2700 |
+| Bob         |             1750 |
+| Carol       |             2000 |
++-------------+------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,sum(sale_amount) from sales group by salesperson order by sum(sale_amount) desc;
++-------------+------------------+
+| salesperson | sum(sale_amount) |
++-------------+------------------+
+| Alice       |             2700 |
+| Dave        |             2000 |
+| Carol       |             2000 |
+| Bob         |             1750 |
++-------------+------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> select salesperson,AVG(sale)
+    -> ;
+ERROR 1054 (42S22): Unknown column 'salesperson' in 'field list'
+MariaDB [uov]> select salesperson,AVG(sale_amount)from sales  group by salesperson having(AVG(salesperson)>1000)p;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'p' at line 1
+MariaDB [uov]> select salesperson,AVG(sale_amount) from sales  group by salesperson having(AVG(salesperson)>1000);
+Empty set, 7 warnings (0.000 sec)
+
+MariaDB [uov]> select salesperson,AVG(sale_amount) from sales  group by salesperson having(AVG(sale_amount)>1000);
++-------------+------------------+
+| salesperson | AVG(sale_amount) |
++-------------+------------------+
+| Alice       |        1350.0000 |
+| Dave        |        2000.0000 |
++-------------+------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select region,count(*) from sales where date='2024-12-03';
+ERROR 1054 (42S22): Unknown column 'date' in 'where clause'
+MariaDB [uov]> select region,count(*) from sales where sale_ date='2024-12-03';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'date='2024-12-03'' at line 1
+MariaDB [uov]> select region count(*) from sales where sale_ date='2024-12-03';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'count(*) from sales where sale_ date='2024-12-03'' at line 1
+MariaDB [uov]> select count(region) from sales where sale_ date='2024-12-03';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'date='2024-12-03'' at line 1
+MariaDB [uov]> select count(region) from sales where sale_ date='2024-12-03';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'date='2024-12-03'' at line 1
+MariaDB [uov]> select count(region) from sales where sale_date='2024-12-03';
++---------------+
+| count(region) |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select count(*) from sales where sale_date='2024-12-03';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> select distinct sale_amount from sales;
++-------------+
+| sale_amount |
++-------------+
+|        1200 |
+|         800 |
+|        1500 |
+|         700 |
+|        2000 |
+|         950 |
+|        1300 |
++-------------+
+7 rows in set (0.000 sec)
+
+MariaDB [uov]>
