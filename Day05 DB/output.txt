@@ -1,0 +1,510 @@
+
+Setting environment for using XAMPP for Windows.
+2022asp86@CL2-05 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++-------------------------+
+| Database                |
++-------------------------+
+| agriharvestnexus        |
+| authors                 |
+| bank                    |
+| bfl                     |
+| bookboat                |
+| bookdb                  |
+| books                   |
+| bookstore               |
+| branchrelation          |
+| company                 |
+| companyfinal            |
+| customerid              |
+| datastore               |
+| hospital                |
+| icae02                  |
+| information_schema      |
+| inventory               |
+| it1223db                |
+| library                 |
+| moviedb                 |
+| mysql                   |
+| online_seed_marketplace |
+| palmyrah                |
+| performance_schema      |
+| phpmyadmin              |
+| retailstore             |
+| spjbase                 |
+| studendb                |
+| studentdb               |
+| students                |
+| studentsdb              |
+| test                    |
+| university              |
+| uov                     |
+| uovlib                  |
++-------------------------+
+35 rows in set (0.057 sec)
+
+MariaDB [(none)]> create database UOV;
+ERROR 1007 (HY000): Can't create database 'uov'; database exists
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> create table author;
+ERROR 1113 (42000): A table must have at least 1 column
+MariaDB [uov]> create table author(AuthorID INT,Name VARCHAR(30),BirthYear int);
+Query OK, 0 rows affected (0.077 sec)
+
+MariaDB [uov]> insert into author(AuthorID,Name,BirthYear)VALUES
+    -> (1,"J.k.Rowling",1965),
+    -> (2,"George R.R.Martin",1948),
+    -> (3,"Agatha Christie",1890),
+    -> (4,"Stephen King",1947),
+    -> (5,"Haruki Murakami",1949);
+Query OK, 5 rows affected (0.038 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++----------+-------------------+-----------+
+| AuthorID | Name              | BirthYear |
++----------+-------------------+-----------+
+|        1 | J.k.Rowling       |      1965 |
+|        2 | George R.R.Martin |      1948 |
+|        3 | Agatha Christie   |      1890 |
+|        4 | Stephen King      |      1947 |
+|        5 | Haruki Murakami   |      1949 |
++----------+-------------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author add primary key (AuthorID);
+Query OK, 0 rows affected (0.038 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++----------+-------------------+-----------+
+| AuthorID | Name              | BirthYear |
++----------+-------------------+-----------+
+|        1 | J.k.Rowling       |      1965 |
+|        2 | George R.R.Martin |      1948 |
+|        3 | Agatha Christie   |      1890 |
+|        4 | Stephen King      |      1947 |
+|        5 | Haruki Murakami   |      1949 |
++----------+-------------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> tee C:\Users\2022asp86\Desktop\data base day01\output.txt
+Logging to file 'C:\Users\2022asp86\Desktop\data base day01\output.txt'
+MariaDB [uov]> select * from author;
++----------+-------------------+-----------+
+| AuthorID | Name              | BirthYear |
++----------+-------------------+-----------+
+|        1 | J.k.Rowling       |      1965 |
+|        2 | George R.R.Martin |      1948 |
+|        3 | Agatha Christie   |      1890 |
+|        4 | Stephen King      |      1947 |
+|        5 | Haruki Murakami   |      1949 |
++----------+-------------------+-----------+
+5 rows in set (0.001 sec)
+
+MariaDB [uov]> alter table author add mobilenumber int after Name;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++----------+-------------------+--------------+-----------+
+| AuthorID | Name              | mobilenumber | BirthYear |
++----------+-------------------+--------------+-----------+
+|        1 | J.k.Rowling       |         NULL |      1965 |
+|        2 | George R.R.Martin |         NULL |      1948 |
+|        3 | Agatha Christie   |         NULL |      1890 |
+|        4 | Stephen King      |         NULL |      1947 |
+|        5 | Haruki Murakami   |         NULL |      1949 |
++----------+-------------------+--------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author add country ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1MariaDB [uov]> alter table author add country VARCHAR(30);
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++----------+-------------------+--------------+-----------+---------+
+| AuthorID | Name              | mobilenumber | BirthYear | country |
++----------+-------------------+--------------+-----------+---------+
+|        1 | J.k.Rowling       |         NULL |      1965 | NULL    |
+|        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+|        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+|        4 | Stephen King      |         NULL |      1947 | NULL    |
+|        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [uov]> alter table author change mobilenumber to age;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'to age' at line 1
+MariaDB [uov]> alter table author change mobilenumber to age int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'to age int' at line 1
+MariaDB [uov]> select * from author;
++----------+-------------------+--------------+-----------+---------+
+| AuthorID | Name              | mobilenumber | BirthYear | country |
++----------+-------------------+--------------+-----------+---------+
+|        1 | J.k.Rowling       |         NULL |      1965 | NULL    |
+|        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+|        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+|        4 | Stephen King      |         NULL |      1947 | NULL    |
+|        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author add Firstname VARCHAR(30) First AuthorID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AuthorID' at line 1
+MariaDB [uov]> alter table author add Firstname VARCHAR(30) First;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+-----------+---------+
+| Firstname | AuthorID | Name              | mobilenumber | BirthYear | country |
++-----------+----------+-------------------+--------------+-----------+---------+
+| NULL      |        1 | J.k.Rowling       |         NULL |      1965 | NULL    |
+| NULL      |        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+| NULL      |        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+| NULL      |        4 | Stephen King      |         NULL |      1947 | NULL    |
+| NULL      |        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++-----------+----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]>
+
+
+
+               select * from author;
++-----------+----------+-------------------+--------------+-----------+---------+
+| Firstname | AuthorID | Name              | mobilenumber | BirthYear | country |
++-----------+----------+-------------------+--------------+-----------+---------+
+| NULL      |        1 | J.k.Rowling       |         NULL |      1965 | NULL    |
+| NULL      |        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+| NULL      |        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+| NULL      |        4 | Stephen King      |         NULL |      1947 | NULL    |
+| NULL      |        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++-----------+----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> UPDATE author SET country='UK' WHERE AuthorID=1;
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+-----------+---------+
+| Firstname | AuthorID | Name              | mobilenumber | BirthYear | country |
++-----------+----------+-------------------+--------------+-----------+---------+
+| NULL      |        1 | J.k.Rowling       |         NULL |      1965 | UK      |
+| NULL      |        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+| NULL      |        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+| NULL      |        4 | Stephen King      |         NULL |      1947 | NULL    |
+| NULL      |        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++-----------+----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> UPDATE author SET Firstname='J.k.' WHERE AuthorID=1;
+Query OK, 1 row affected (0.005 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+-----------+---------+
+| Firstname | AuthorID | Name              | mobilenumber | BirthYear | country |
++-----------+----------+-------------------+--------------+-----------+---------+
+| J.k.      |        1 | J.k.Rowling       |         NULL |      1965 | UK      |
+| NULL      |        2 | George R.R.Martin |         NULL |      1948 | NULL    |
+| NULL      |        3 | Agatha Christie   |         NULL |      1890 | NULL    |
+| NULL      |        4 | Stephen King      |         NULL |      1947 | NULL    |
+| NULL      |        5 | Haruki Murakami   |         NULL |      1949 | NULL    |
++-----------+----------+-------------------+--------------+-----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> UPDATE author SET
+    -> country='srilanla' where AuthorID=2,
+    -> country='japan' where AuthorID=3,
+    -> country='india' where AuthorID=4,
+    -> country='singapore' where AuthorID=5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+country='japan' where AuthorID=3,
+country='india' where AuthorID=4,
+country=...' at line 2
+MariaDB [uov]> UPDATE author SET country='srilanla' where AuthorID=2,
+    ->     -> country='japan' where AuthorID=3,
+    ->     -> country='india' where AuthorID=4,
+    ->     -> country='singapore' where AuthorID=5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+    -> country='japan' where AuthorID=3,
+    -> country='india' where Author...' at line 1
+MariaDB [uov]> UPDATE author
+    -> set  country='srilanla' where AuthorID=2;
+Query OK, 1 row affected (0.005 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+-----------+----------+
+| Firstname | AuthorID | Name              | mobilenumber | BirthYear | country  |
++-----------+----------+-------------------+--------------+-----------+----------+
+| J.k.      |        1 | J.k.Rowling       |         NULL |      1965 | UK       |
+| NULL      |        2 | George R.R.Martin |         NULL |      1948 | srilanla |
+| NULL      |        3 | Agatha Christie   |         NULL |      1890 | NULL     |
+| NULL      |        4 | Stephen King      |         NULL |      1947 | NULL     |
+| NULL      |        5 | Haruki Murakami   |         NULL |      1949 | NULL     |
++-----------+----------+-------------------+--------------+-----------+----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author drop column BirthYear;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+----------+
+| Firstname | AuthorID | Name              | mobilenumber | country  |
++-----------+----------+-------------------+--------------+----------+
+| J.k.      |        1 | J.k.Rowling       |         NULL | UK       |
+| NULL      |        2 | George R.R.Martin |         NULL | srilanla |
+| NULL      |        3 | Agatha Christie   |         NULL | NULL     |
+| NULL      |        4 | Stephen King      |         NULL | NULL     |
+| NULL      |        5 | Haruki Murakami   |         NULL | NULL     |
++-----------+----------+-------------------+--------------+----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+----------+
+| Firstname | AuthorID | Name              | mobilenumber | country  |
++-----------+----------+-------------------+--------------+----------+
+| J.k.      |        1 | J.k.Rowling       |         NULL | UK       |
+| NULL      |        2 | George R.R.Martin |         NULL | srilanla |
+| NULL      |        3 | Agatha Christie   |         NULL | NULL     |
+| NULL      |        4 | Stephen King      |         NULL | NULL     |
+| NULL      |        5 | Haruki Murakami   |         NULL | NULL     |
++-----------+----------+-------------------+--------------+----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author drop column country;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+--------------+
+| Firstname | AuthorID | Name              | mobilenumber |
++-----------+----------+-------------------+--------------+
+| J.k.      |        1 | J.k.Rowling       |         NULL |
+| NULL      |        2 | George R.R.Martin |         NULL |
+| NULL      |        3 | Agatha Christie   |         NULL |
+| NULL      |        4 | Stephen King      |         NULL |
+| NULL      |        5 | Haruki Murakami   |         NULL |
++-----------+----------+-------------------+--------------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author add
+    -> Id int first,
+    -> Name VARCHAR(30) after Id,
+    -> Age int after Name,
+    -> Byear int after Age,
+    -> country VARCHAR(30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Name VARCHAR(30) after Id,
+Age int after Name,
+Byear int after Age,
+country V...' at line 3
+MariaDB [uov]> alter table author
+    -> add Age Int after Name,
+    -> add country VARCHAR(30) after mobilenumber;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+------+--------------+---------+
+| Firstname | AuthorID | Name              | Age  | mobilenumber | country |
++-----------+----------+-------------------+------+--------------+---------+
+| J.k.      |        1 | J.k.Rowling       | NULL |         NULL | NULL    |
+| NULL      |        2 | George R.R.Martin | NULL |         NULL | NULL    |
+| NULL      |        3 | Agatha Christie   | NULL |         NULL | NULL    |
+| NULL      |        4 | Stephen King      | NULL |         NULL | NULL    |
+| NULL      |        5 | Haruki Murakami   | NULL |         NULL | NULL    |
++-----------+----------+-------------------+------+--------------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author
+    -> MODIFY mobilenumber int(5);
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> DESC author;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Firstname    | varchar(30) | YES  |     | NULL    |       |
+| AuthorID     | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(30) | YES  |     | NULL    |       |
+| Age          | int(11)     | YES  |     | NULL    |       |
+| mobilenumber | int(5)      | YES  |     | NULL    |       |
+| country      | varchar(30) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.014 sec)
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+------+--------------+---------+
+| Firstname | AuthorID | Name              | Age  | mobilenumber | country |
++-----------+----------+-------------------+------+--------------+---------+
+| J.k.      |        1 | J.k.Rowling       | NULL |         NULL | NULL    |
+| NULL      |        2 | George R.R.Martin | NULL |         NULL | NULL    |
+| NULL      |        3 | Agatha Christie   | NULL |         NULL | NULL    |
+| NULL      |        4 | Stephen King      | NULL |         NULL | NULL    |
+| NULL      |        5 | Haruki Murakami   | NULL |         NULL | NULL    |
++-----------+----------+-------------------+------+--------------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table author Change column age Author_age int;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from author;
++-----------+----------+-------------------+------------+--------------+---------+
+| Firstname | AuthorID | Name              | Author_age | mobilenumber | country |
++-----------+----------+-------------------+------------+--------------+---------+
+| J.k.      |        1 | J.k.Rowling       |       NULL |         NULL | NULL    |
+| NULL      |        2 | George R.R.Martin |       NULL |         NULL | NULL    |
+| NULL      |        3 | Agatha Christie   |       NULL |         NULL | NULL    |
+| NULL      |        4 | Stephen King      |       NULL |         NULL | NULL    |
+| NULL      |        5 | Haruki Murakami   |       NULL |         NULL | NULL    |
++-----------+----------+-------------------+------------+--------------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> create table employee(emp_id int,First_name VARCHAR(30),Last_name VARCHAR(30),Hire_date date);
+Query OK, 0 rows affected (0.048 sec)
+
+MariaDB [uov]> insert into employee(emp_id,First_name,Last_name,Hire_date)VALUES
+    -> (1,"Alice","johnson",'2021-01-15'),
+    -> (2,"Bob","Smith",'2020-07-30'),
+    -> (3,"Carla","Garcia",'2022-03-10'),
+    -> (4,"David","Lee",'2019-11-05');
+Query OK, 4 rows affected (0.005 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+-----------+------------+
+| emp_id | First_name | Last_name | Hire_date  |
++--------+------------+-----------+------------+
+|      1 | Alice      | johnson   | 2021-01-15 |
+|      2 | Bob        | Smith     | 2020-07-30 |
+|      3 | Carla      | Garcia    | 2022-03-10 |
+|      4 | David      | Lee       | 2019-11-05 |
++--------+------------+-----------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table employee add primary key (emp_id);
+Query OK, 0 rows affected (0.032 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> alter table employee add department VARCHAR(30) default='Genral' after last_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='Genral' after last_name' at line 1
+MariaDB [uov]> alter table employee add department VARCHAR(30) default='General' after last_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='General' after last_name' at line 1
+MariaDB [uov]> alter table employee add department VARCHAR(30) default'General' after last_name;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+-----------+------------+------------+
+| emp_id | First_name | Last_name | department | Hire_date  |
++--------+------------+-----------+------------+------------+
+|      1 | Alice      | johnson   | General    | 2021-01-15 |
+|      2 | Bob        | Smith     | General    | 2020-07-30 |
+|      3 | Carla      | Garcia    | General    | 2022-03-10 |
+|      4 | David      | Lee       | General    | 2019-11-05 |
++--------+------------+-----------+------------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table employee change column hire_date employment_date date;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+-----------+------------+-----------------+
+| emp_id | First_name | Last_name | department | employment_date |
++--------+------------+-----------+------------+-----------------+
+|      1 | Alice      | johnson   | General    | 2021-01-15      |
+|      2 | Bob        | Smith     | General    | 2020-07-30      |
+|      3 | Carla      | Garcia    | General    | 2022-03-10      |
+|      4 | David      | Lee       | General    | 2019-11-05      |
++--------+------------+-----------+------------+-----------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table employee drop column last_name;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+------------+-----------------+
+| emp_id | First_name | department | employment_date |
++--------+------------+------------+-----------------+
+|      1 | Alice      | General    | 2021-01-15      |
+|      2 | Bob        | General    | 2020-07-30      |
+|      3 | Carla      | General    | 2022-03-10      |
+|      4 | David      | General    | 2019-11-05      |
++--------+------------+------------+-----------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table employee add salary decimal(10,2);
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+------------+-----------------+--------+
+| emp_id | First_name | department | employment_date | salary |
++--------+------------+------------+-----------------+--------+
+|      1 | Alice      | General    | 2021-01-15      |   NULL |
+|      2 | Bob        | General    | 2020-07-30      |   NULL |
+|      3 | Carla      | General    | 2022-03-10      |   NULL |
+|      4 | David      | General    | 2019-11-05      |   NULL |
++--------+------------+------------+-----------------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> alter table employee Modify salary decimal(12,2);
+Query OK, 4 rows affected (0.032 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from employee;
++--------+------------+------------+-----------------+--------+
+| emp_id | First_name | department | employment_date | salary |
++--------+------------+------------+-----------------+--------+
+|      1 | Alice      | General    | 2021-01-15      |   NULL |
+|      2 | Bob        | General    | 2020-07-30      |   NULL |
+|      3 | Carla      | General    | 2022-03-10      |   NULL |
+|      4 | David      | General    | 2019-11-05      |   NULL |
++--------+------------+------------+-----------------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> desc employee;
++-----------------+---------------+------+-----+---------+-------+
+| Field           | Type          | Null | Key | Default | Extra |
++-----------------+---------------+------+-----+---------+-------+
+| emp_id          | int(11)       | NO   | PRI | NULL    |       |
+| First_name      | varchar(30)   | YES  |     | NULL    |       |
+| department      | varchar(30)   | YES  |     | General |       |
+| employment_date | date          | YES  |     | NULL    |       |
+| salary          | decimal(12,2) | YES  |     | NULL    |       |
++-----------------+---------------+------+-----+---------+-------+
+5 rows in set (0.013 sec)
+
+MariaDB [uov]> select * from employee;
++--------+------------+------------+-----------------+--------+
+| emp_id | First_name | department | employment_date | salary |
++--------+------------+------------+-----------------+--------+
+|      1 | Alice      | General    | 2021-01-15      |   NULL |
+|      2 | Bob        | General    | 2020-07-30      |   NULL |
+|      3 | Carla      | General    | 2022-03-10      |   NULL |
+|      4 | David      | General    | 2019-11-05      |   NULL |
++--------+------------+------------+-----------------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]>
