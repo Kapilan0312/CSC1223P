@@ -1,0 +1,338 @@
+
+Setting environment for using XAMPP for Windows.
+2022asp86@CL2-21 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database uov;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> create table customers(customer_id int(5),name varchar(10),city varchar(10));
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [uov]> insert into customers(customer_id,name,city)values
+    -> (1,"Alice ","colombo";;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2ERROR: No query specified
+
+    ->
+    -> l;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')
+
+l' at line 1
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customr_id int,amount decimal(10,2),foriegn key (customer_id) references customers(customer_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key (customer_id) references customers(customer_id))' at line 1
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customr_id int,amount decimal(10,2),foriegn key (customer_id) references customers (customer_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key (customer_id) references customers (customer_id))' at line 1
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foriegn key (customer_id) references customers(customer_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key (customer_id) references customers(customer_id))' at line 1
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foreign key (customer_id) references customers(customer_id));
+ERROR 1005 (HY000): Can't create table `uov`.`orders` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foreign key(customer_id) references customers(customer_id));
+ERROR 1005 (HY000): Can't create table `uov`.`orders` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [uov]> alter table customers add primary key (customer_id);
+Query OK, 0 rows affected (0.026 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foreign key(customer_id) references customers(customer_id));
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [uov]> insert into customers(customer_id,name,city)values
+    -> (1,"Alice ","colombo"),
+    -> (2,"bob","jaffna");
+Query OK, 2 rows affected (0.004 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * customers;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'customers' at line 1
+MariaDB [uov]> select * from customers;
++-------------+--------+---------+
+| customer_id | name   | city    |
++-------------+--------+---------+
+|           1 | Alice  | colombo |
+|           2 | bob    | jaffna  |
++-------------+--------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> insert into orders(order_id,order_date,customer_id,amount,)values
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')values' at line 1
+MariaDB [uov]> insert into orders(order_id,order_date,customer_id,amount)values
+    -> (101,'21/05/2025',1,25000),
+    -> (102,'22/05/2025',1,30000),
+    -> (103,'22/05/2025',2,40000);
+Query OK, 3 rows affected, 3 warnings (0.005 sec)
+Records: 3  Duplicates: 0  Warnings: 3
+
+MariaDB [uov]> select *from orders;
++----------+------------+-------------+----------+
+| order_id | order_date | customer_id | amount   |
++----------+------------+-------------+----------+
+|      101 | 0000-00-00 |           1 | 25000.00 |
+|      102 | 0000-00-00 |           1 | 30000.00 |
+|      103 | 0000-00-00 |           2 | 40000.00 |
++----------+------------+-------------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> desc orders;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| order_id    | int(11)       | NO   | PRI | NULL    |       |
+| order_date  | date          | YES  |     | NULL    |       |
+| customer_id | int(11)       | YES  | MUL | NULL    |       |
+| amount      | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.014 sec)
+
+MariaDB [uov]> insert into orders(order_id,order_date,customer_id,amount)values
+    -> (101,'21-05-2025',1,25000),
+    -> (102,'22-05-2025',1,30000),
+    -> (103,'22-05-2025',2,40000);
+ERROR 1062 (23000): Duplicate entry '101' for key 'PRIMARY'
+MariaDB [uov]> drop table orders;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foreign key(customer_id) references customers(customer_id));
+Query OK, 0 rows affected (0.048 sec)
+
+MariaDB [uov]> insert into orders(order_id,order_date,customer_id,amount)values
+    -> (101,'21-05-2025',1,25000),
+    -> (102,'22-05-2025',1,30000),
+    -> (103,'22-05-2025',2,40000);
+Query OK, 3 rows affected, 3 warnings (0.023 sec)
+Records: 3  Duplicates: 0  Warnings: 3
+
+MariaDB [uov]> select *from orders;
++----------+------------+-------------+----------+
+| order_id | order_date | customer_id | amount   |
++----------+------------+-------------+----------+
+|      101 | 0000-00-00 |           1 | 25000.00 |
+|      102 | 0000-00-00 |           1 | 30000.00 |
+|      103 | 0000-00-00 |           2 | 40000.00 |
++----------+------------+-------------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> drop table orders;
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [uov]> create table orders(order_id int primary key,order_date date,customer_id int,amount decimal(10,2),foreign key(customer_id) references customers(customer_id));
+Query OK, 0 rows affected (0.028 sec)
+
+MariaDB [uov]> insert into orders(order_id,order_date,customer_id,amount)values
+    -> (101,'2025-05-21',1,25000),
+    -> (102,'2025-05-22',1,30000),
+    -> (103,'2025-05-22',2,40000);
+Query OK, 3 rows affected (0.005 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select *from orders;
++----------+------------+-------------+----------+
+| order_id | order_date | customer_id | amount   |
++----------+------------+-------------+----------+
+|      101 | 2025-05-21 |           1 | 25000.00 |
+|      102 | 2025-05-22 |           1 | 30000.00 |
+|      103 | 2025-05-22 |           2 | 40000.00 |
++----------+------------+-------------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [uov]> dropm table customers;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'dropm table customers' at line 1
+MariaDB [uov]> drop table customers;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+MariaDB [uov]> delete customer where customer_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where customer_id=1' at line 1
+MariaDB [uov]> delete customer from customers where customer_id=1;
+ERROR 1109 (42S02): Unknown table 'customer' in MULTI DELETE
+MariaDB [uov]> delete name from customers where customer_id=1;
+ERROR 1109 (42S02): Unknown table 'name' in MULTI DELETE
+MariaDB [uov]> delete customers where customer_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where customer_id=1' at line 1
+MariaDB [uov]> DELETE customers where customer_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where customer_id=1' at line 1
+MariaDB [uov]> DELETE customers where 'customer_id;;=1;
+    '> ;
+    '> ';'
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where 'customer_id;;=1;
+;
+'' at line 1
+    '> ';'ljkl;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''
+'' at line 1
+    '> ;;
+    '> ;
+    '> ;;
+    '> .;
+    '> ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''ljkl;
+;;
+;
+;;
+.;
+'' at line 1
+MariaDB [uov]> DELETE customers where customer_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where customer_id=1' at line 1
+MariaDB [uov]> DELETE customers where 'customer_id'=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where 'customer_id'=1' at line 1
+MariaDB [uov]> DELETE name where customer_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where customer_id=1' at line 1
+MariaDB [uov]> DELETE from customers  where customer_id=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`uov`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`))
+MariaDB [uov]> DELETE from customers where customer_id=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`uov`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`))
+MariaDB [uov]> DELETE from customers WHERE customer_id=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`uov`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`))
+MariaDB [uov]> DELETE from customers WHERE customer_id = 1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`uov`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`))
+MariaDB [uov]> DELETE from customers WHERE customer_id = 1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`uov`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`))
+MariaDB [uov]>
+MariaDB [uov]> delete from orders where customer_id=1;
+Query OK, 2 rows affected (0.004 sec)
+
+MariaDB [uov]> select
+    -> * from customers;
++-------------+--------+---------+
+| customer_id | name   | city    |
++-------------+--------+---------+
+|           1 | Alice  | colombo |
+|           2 | bob    | jaffna  |
++-------------+--------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from orders;
++----------+------------+-------------+----------+
+| order_id | order_date | customer_id | amount   |
++----------+------------+-------------+----------+
+|      103 | 2025-05-22 |           2 | 40000.00 |
++----------+------------+-------------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> delete from customers where customer_id=1;
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [uov]> select * from customers;
++-------------+------+--------+
+| customer_id | name | city   |
++-------------+------+--------+
+|           2 | bob  | jaffna |
++-------------+------+--------+
+1 row in set (0.000 sec)
+
+MariaDB [uov]> create table student(student_id int,f_name varchar(10),l_name varchar(10),city varchar(10));
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [uov]> insert into student(student_id,f_name,l_name,city)values
+    -> (1,'devine','putin','france'),
+    -> (2,'michael','clark','australia'),
+    -> (3,'ethon','miller','england'),
+    -> (4,'mark','strauss','america');
+Query OK, 4 rows affected (0.005 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> create table technology(student_id int,tech_id int,name varchar(10),technologyy varchar(10));
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [uov]> insert into(student_id,tech_id,name,technologyy)values
+    ->
+    -> (1,1,'java training inst.','java'),
+    -> (2,2,'chroma campus.','angular'),
+    -> (3,3,'cetpa infotech.','bigdata'),
+    -> (5,4,'aptron.','ios'),
+    -> (6,5,'faizabad.','mongoDB');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(student_id,tech_id,name,technologyy)values
+
+(1,1,'java training inst.','java...' at line 1
+MariaDB [uov]> insert into technology(student_id,tech_id,name,technologyy)values
+    -> (1,1,'java training inst.','java'),
+    -> (2,2,'chroma campus.','angular'),
+    -> (3,3,'cetpa infotech.','bigdata'),
+    -> (5,4,'aptron.','ios'),
+    -> (6,5,'faizabad.','mongoDB');
+Query OK, 5 rows affected, 3 warnings (0.007 sec)
+Records: 5  Duplicates: 0  Warnings: 3
+
+MariaDB [uov]> select * from technology;
++------------+---------+------------+-------------+
+| student_id | tech_id | name       | technologyy |
++------------+---------+------------+-------------+
+|          1 |       1 | java train | java        |
+|          2 |       2 | chroma cam | angular     |
+|          3 |       3 | cetpa info | bigdata     |
+|          5 |       4 | aptron.    | ios         |
+|          6 |       5 | faizabad.  | mongoDB     |
++------------+---------+------------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> select * from student;;
++------------+---------+---------+-----------+
+| student_id | f_name  | l_name  | city      |
++------------+---------+---------+-----------+
+|          1 | devine  | putin   | france    |
+|          2 | michael | clark   | australia |
+|          3 | ethon   | miller  | england   |
+|          4 | mark    | strauss | america   |
++------------+---------+---------+-----------+
+4 rows in set (0.000 sec)
+
+ERROR: No query specified
+
+MariaDB [uov]> SELECT * student_id from student inner join technology on student.student_id=technology.student
+    -> _id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'student_id from student inner join technology on student.student_id=technolog...' at line 1
+MariaDB [uov]> SELECT * student_id from student inner join technology on student.student_id=technology.student_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'student_id from student inner join technology on student.student_id=technolog...' at line 1
+MariaDB [uov]> SELECT  student_id from student inner join technology on student.student_id=technology.student_id;
+ERROR 1052 (23000): Column 'student_id' in field list is ambiguous
+MariaDB [uov]> SELECT * from student inner join technology on student.student_id=technology.student_id;
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+| student_id | f_name  | l_name | city      | student_id | tech_id | name       | technologyy |
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+|          1 | devine  | putin  | france    |          1 |       1 | java train | java        |
+|          2 | michael | clark  | australia |          2 |       2 | chroma cam | angular     |
+|          3 | ethon   | miller | england   |          3 |       3 | cetpa info | bigdata     |
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+3 rows in set (0.001 sec)
+
+MariaDB [uov]> SELECT * from student right outer join technology on student.student_id=technology.student_id;
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+| student_id | f_name  | l_name | city      | student_id | tech_id | name       | technologyy |
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+|          1 | devine  | putin  | france    |          1 |       1 | java train | java        |
+|          2 | michael | clark  | australia |          2 |       2 | chroma cam | angular     |
+|          3 | ethon   | miller | england   |          3 |       3 | cetpa info | bigdata     |
+|       NULL | NULL    | NULL   | NULL      |          5 |       4 | aptron.    | ios         |
+|       NULL | NULL    | NULL   | NULL      |          6 |       5 | faizabad.  | mongoDB     |
++------------+---------+--------+-----------+------------+---------+------------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> SELECT * from student left outer join technology on student.student_id=technology.student_id;
++------------+---------+---------+-----------+------------+---------+------------+-------------+
+| student_id | f_name  | l_name  | city      | student_id | tech_id | name       | technologyy |
++------------+---------+---------+-----------+------------+---------+------------+-------------+
+|          1 | devine  | putin   | france    |          1 |       1 | java train | java        |
+|          2 | michael | clark   | australia |          2 |       2 | chroma cam | angular     |
+|          3 | ethon   | miller  | england   |          3 |       3 | cetpa info | bigdata     |
+|          4 | mark    | strauss | america   |       NULL |    NULL | NULL       | NULL        |
++------------+---------+---------+-----------+------------+---------+------------+-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [uov]> student_idstudent_id   NULL |    NULL | NULL       | NULL        |
+    -> +------------+---------+---------+-----------+-----   NULL |    NULL | NULL       | NULL        |
+    -> +------------+---------+---------+-----------+-----   NULL |    NULL | NULL       | NULL        |
+    -> +------------+---------+---------+-----------+-----   NULL |    NULL | NULL       | NULL        |
+    -> +------------+---------+---------+-----------+-----
+    -> ;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'student_idstudent_id   NULL |    NULL | NULL       | NULL        |
++---------...' at line 1
+ERROR: No query specified
+
+MariaDB [uov]>
